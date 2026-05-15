@@ -1,3 +1,4 @@
+import 'package:auth_crud_endroid/screens/task_screen.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 
@@ -12,27 +13,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _nameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
-  final _phoneNum = TextEditingController();
-  final _address = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
   bool _obscure = true;
-
-  // void _register() async {
-  //   if (!_formKey.currentState!.validate()) return;
-  //   setState(() => _loading = true);
-  //
-  //   final error = await AuthService()
-  //       .register(_nameCtrl.text, _emailCtrl.text, _passCtrl.text);
-  //
-  //   setState(() => _loading = false);
-  //   if (error != null && mounted) {
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(SnackBar(content: Text(error)));
-  //   }
-  //   // On success, StreamBuilder in main.dart navigates to TaskScreen automatically
-  // }
 
   void _register() async {
     if (!_formKey.currentState!.validate()) return;
@@ -64,14 +48,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
     } else {
-      // ✅ Success snackbar
+      // ✅ Success snackbar for register
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
             children: [
               const Icon(Icons.check_circle_outline, color: Colors.white),
               const SizedBox(width: 10),
-              Text('Welcome, ${_nameCtrl.text.trim()}! Account created 🎉'),
+              Expanded(
+                child: Text(
+                  'Welcome, ${_nameCtrl.text.trim()}! Account created ',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ),
             ],
           ),
           backgroundColor: Colors.green,
@@ -80,6 +70,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           margin: const EdgeInsets.all(16),
           duration: const Duration(seconds: 2),
         ),
+      );
+
+      // ✅ Navigate to TaskScreen after 2 seconds
+      await Future.delayed(const Duration(seconds: 2));
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const TaskScreen()),
+            (route) => false,   // ← clears entire stack
       );
     }
   }
@@ -162,46 +161,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   const SizedBox(height: 24),
-
-                  // // phone no.
-                  // TextFormField(
-                  //   controller: _phoneNum,
-                  //   keyboardType: TextInputType.phone,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Phone Number',
-                  //     prefixIcon: Icon(Icons.call),
-                  //     border: OutlineInputBorder(),
-                  //   ),
-                  //
-                  //   validator: (v) {
-                  //     if (v == null || v.trim().isEmpty) {
-                  //       return 'Enter your phone no.';
-                  //     }
-                  //
-                  //     if (!RegExp(r'^[0-9]{10}$').hasMatch(v)) {
-                  //       return 'Enter valid 10 digit phone number';
-                  //     }
-                  //
-                  //     return null;
-                  //   },
-                  //
-                  // ),
-                  //
-                  // const SizedBox(height: 24),
-                  //
-                  // // address
-                  // TextFormField(
-                  //   controller: _address,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Address',
-                  //     prefixIcon: Icon(Icons.home),
-                  //     border: OutlineInputBorder(),
-                  //   ),
-                  //   validator: (v) =>
-                  //   v == null || v.trim().isEmpty ? 'Enter your address' : null,
-                  // ),
-
-                  // const SizedBox(height: 24),
 
                   // Register button
                   FilledButton(

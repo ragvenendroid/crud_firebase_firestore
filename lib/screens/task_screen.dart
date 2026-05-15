@@ -121,7 +121,7 @@ class _TaskScreenState extends State<TaskScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Crud -> FireStore🔥'),
+            const Text('CRUD -> FireStore🔥'),
             Text(
               _user.displayName ?? _user.email ?? '',
               style: Theme.of(context)
@@ -133,12 +133,6 @@ class _TaskScreenState extends State<TaskScreen> {
         ),
 
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.person),
-          //   onPressed: ()  {
-          //
-          //   },
-          // ),
 
           IconButton(
             icon: const Icon(Icons.person),
@@ -157,6 +151,7 @@ class _TaskScreenState extends State<TaskScreen> {
               await AuthService().logout();
             },
           ),
+
         ],
       ),
 
